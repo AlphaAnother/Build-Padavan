@@ -35,7 +35,6 @@ jobs:
         mkdir -p /opt/images/
     - name: Build Firmware
       run: |
-        TNAME="${{ github.event.inputs.model }}" 
         #通用修改storage空间大小
         # cd /opt/rt-n56u/trunk/configs/boards/型号
         # sed -i 's/CONFIG_MTD_STORE_PART_SIZ=0x200000/CONFIG_MTD_STORE_PART_SIZ=0x80000/g' kernel-3.4.x-5.0.config #0x200000是2MB 0x80000是512KB
@@ -47,93 +46,90 @@ jobs:
         echo "configs/templates/$TNAME.config not found "
         exit 1
         fi
-        cp -f configs/templates/$TNAME.config temp.config
-        sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' temp.config
+        sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' configs/templates/$TNAME.config
         ################################################################################################
         #因不同型号配置功能不一样，所以先把配置项删除，如果你自己要添加其他的，也要写上删除这一条，切记！！！
         ################################################################################################
         #忽略所有校园网客户端，一般家用不需要这东西。
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_MENTOHUST/d' temp.config #删除配置项 MENTOHUST
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_GDUT_DRCOM/d' temp.config #删除配置项 GDUT_DRCOM
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT/d' temp.config #删除配置项 SCUTCLIENT
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_DOGCOM/d' temp.config #删除配置项 DOGCOM
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT/d' temp.config #删除配置项 NJIT_CLIENT
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_MENTOHUST/d' configs/templates/$TNAME.config #删除配置项 MENTOHUST
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_GDUT_DRCOM/d' configs/templates/$TNAME.config #删除配置项 GDUT_DRCOM
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT/d' configs/templates/$TNAME.config #删除配置项 SCUTCLIENT
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_DOGCOM/d' configs/templates/$TNAME.config #删除配置项 DOGCOM
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT/d' configs/templates/$TNAME.config #删除配置项 NJIT_CLIENT
         #忽略所有校园网客户端，一般家用不需要这东西。
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_UVC/d' temp.config #删除配置项 UVC
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_AUDIO/d' temp.config #删除配置项 AUDIO
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_MINIDLNA/d' temp.config #删除配置项 MINIDLNA
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_TRANSMISSION/d' temp.config #删除配置项 TRANSMISSION
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_TRANSMISSION_WEB_CONTROL/d' temp.config #删除配置项 TRANSMISSION_WEB_CONTROL
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_ARIA/d' temp.config #删除配置项 ARIA
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_ARIA_WEB_CONTROL/d' temp.config #删除配置项 ARIA_WEB_CONTROL
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_NAPT66/d' temp.config #删除配置项 NAPT66
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS/d' temp.config #删除配置项 SHADOWSOCKS
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SSSERVER/d' temp.config #删除配置项 SSSERVER
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER/d' temp.config #删除配置项 SOFTETHERVPN_SERVER
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT/d' temp.config #删除配置项 SOFTETHERVPN_CLIENT
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD/d' temp.config #删除配置项 SOFTETHERVPN_CMD
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER/d' temp.config #删除配置项 DNSFORWARDER
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_VLMCSD/d' temp.config #删除配置项 VLMCSD
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_TTYD/d' temp.config #删除配置项 TTYD
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_LRZSZ/d' temp.config #删除配置项 LRZSZ
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_HTOP/d' temp.config #删除配置项 HTOP
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_NANO/d' temp.config #删除配置项 NANO
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_IPERF3/d' temp.config #删除配置项 IPERF3
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_DUMP1090/d' temp.config #删除配置项 DUMP1090
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_RTL_SDR/d' temp.config #删除配置项 RTL_SDR
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_MTR/d' temp.config #删除配置项 MTR
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_SRELAY/d' temp.config #删除配置项 SRELAY
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_FRPC/d' temp.config #删除配置项 FRPC
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_FRPS/d' temp.config #删除配置项 FRPS
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_TUNSAFE/d' temp.config #删除配置项 TUNSAFE
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_WIREGUARD/d' temp.config #删除配置项 WIREGUARD
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_UVC/d' configs/templates/$TNAME.config #删除配置项 UVC
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_AUDIO/d' configs/templates/$TNAME.config #删除配置项 AUDIO
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_MINIDLNA/d' configs/templates/$TNAME.config #删除配置项 MINIDLNA
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_TRANSMISSION/d' configs/templates/$TNAME.config #删除配置项 TRANSMISSION
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_TRANSMISSION_WEB_CONTROL/d' configs/templates/$TNAME.config #删除配置项 TRANSMISSION_WEB_CONTROL
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_ARIA/d' configs/templates/$TNAME.config #删除配置项 ARIA
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_ARIA_WEB_CONTROL/d' configs/templates/$TNAME.config #删除配置项 ARIA_WEB_CONTROL
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_NAPT66/d' configs/templates/$TNAME.config #删除配置项 NAPT66
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS/d' configs/templates/$TNAME.config #删除配置项 SHADOWSOCKS
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SSSERVER/d' configs/templates/$TNAME.config #删除配置项 SSSERVER
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER/d' configs/templates/$TNAME.config #删除配置项 SOFTETHERVPN_SERVER
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT/d' configs/templates/$TNAME.config #删除配置项 SOFTETHERVPN_CLIENT
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD/d' configs/templates/$TNAME.config #删除配置项 SOFTETHERVPN_CMD
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER/d' configs/templates/$TNAME.config #删除配置项 DNSFORWARDER
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_VLMCSD/d' configs/templates/$TNAME.config #删除配置项 VLMCSD
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_TTYD/d' configs/templates/$TNAME.config #删除配置项 TTYD
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_LRZSZ/d' configs/templates/$TNAME.config #删除配置项 LRZSZ
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_HTOP/d' configs/templates/$TNAME.config #删除配置项 HTOP
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_NANO/d' configs/templates/$TNAME.config #删除配置项 NANO
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_IPERF3/d' configs/templates/$TNAME.config #删除配置项 IPERF3
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_DUMP1090/d' configs/templates/$TNAME.config #删除配置项 DUMP1090
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_RTL_SDR/d' configs/templates/$TNAME.config #删除配置项 RTL_SDR
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_MTR/d' configs/templates/$TNAME.config #删除配置项 MTR
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_SRELAY/d' configs/templates/$TNAME.config #删除配置项 SRELAY
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_FRPC/d' configs/templates/$TNAME.config #删除配置项 FRPC
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_FRPS/d' configs/templates/$TNAME.config #删除配置项 FRPS
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_TUNSAFE/d' configs/templates/$TNAME.config #删除配置项 TUNSAFE
+        sed -i '/CONFIG_FIRMWARE_INCLUDE_WIREGUARD/d' configs/templates/$TNAME.config #删除配置项 WIREGUARD
         ######################################################################
         #以下选项是定义你需要的功能（y=集成,n=忽略），重新写入到.config文件
         ######################################################################
         #忽略所有校园网客户端，一般家用不需要这东西，如果你需要自行选上对应的程序。
-        echo "CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n" >> temp.config #MENTOHUST
-        echo "CONFIG_FIRMWARE_INCLUDE_GDUT_DRCOM=n" >> temp.config #GDUT_DRCOM
-        echo "CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n" >> temp.config #SCUTCLIENT
-        echo "CONFIG_FIRMWARE_INCLUDE_DOGCOM=n" >> temp.config #DOGCOM
-        echo "CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n" >> temp.config #NJIT_CLIENT
+        echo "CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n" >> configs/templates/$TNAME.config #MENTOHUST
+        echo "CONFIG_FIRMWARE_INCLUDE_GDUT_DRCOM=n" >> configs/templates/$TNAME.config #GDUT_DRCOM
+        echo "CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n" >> configs/templates/$TNAME.config #SCUTCLIENT
+        echo "CONFIG_FIRMWARE_INCLUDE_DOGCOM=n" >> configs/templates/$TNAME.config #DOGCOM
+        echo "CONFIG_FIRMWARE_INCLUDE_NJIT_CLIENT=n" >> configs/templates/$TNAME.config #NJIT_CLIENT
         #忽略所有校园网客户端，一般家用不需要这东西，如果你需要自行选上对应的程序。
-        echo "CONFIG_FIRMWARE_INCLUDE_UVC=n" >> temp.config #UVC
-        echo "CONFIG_FIRMWARE_INCLUDE_AUDIO=n" >> temp.config #AUDIO
-        echo "CONFIG_FIRMWARE_INCLUDE_MINIDLNA=n" >> temp.config #MINIDLNA
-        echo "CONFIG_FIRMWARE_INCLUDE_TRANSMISSION=n" >> temp.config #TRANSMISSION
-        echo "CONFIG_FIRMWARE_INCLUDE_TRANSMISSION_WEB_CONTROL=n" >> temp.config #TRANSMISSION_WEB_CONTROL
-        echo "CONFIG_FIRMWARE_INCLUDE_ARIA=n" >> temp.config #ARIA
-        echo "CONFIG_FIRMWARE_INCLUDE_ARIA_WEB_CONTROL=n" >> temp.config #ARIA_WEB_CONTROL
-        echo "CONFIG_FIRMWARE_INCLUDE_NAPT66=n" >> temp.config #NAPT66
-        echo "CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y" >> temp.config #SHADOWSOCKS
-        echo "CONFIG_FIRMWARE_INCLUDE_SSSERVER=y" >> temp.config #SSSERVER
-        echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER=n" >> temp.config #SOFTETHERVPN_SERVER
-        echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT=n" >> temp.config #SOFTETHERVPN_CLIENT
-        echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD=n" >> temp.config #SOFTETHERVPN_CMD
-        echo "CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y" >> temp.config #DNSFORWARDER
-        echo "CONFIG_FIRMWARE_INCLUDE_VLMCSD=y" >> temp.config #VLMCSD
-        echo "CONFIG_FIRMWARE_INCLUDE_TTYD=y" >> temp.config #TTYD
-        echo "CONFIG_FIRMWARE_INCLUDE_LRZSZ=y" >> temp.config #LRZSZ
-        echo "CONFIG_FIRMWARE_INCLUDE_HTOP=y" >> temp.config #HTOP
-        echo "CONFIG_FIRMWARE_INCLUDE_NANO=y" >> temp.config #NANO
-        echo "CONFIG_FIRMWARE_INCLUDE_IPERF3=n" >> temp.config #IPERF3
-        echo "CONFIG_FIRMWARE_INCLUDE_DUMP1090=n" >> temp.config #DUMP1090
-        echo "CONFIG_FIRMWARE_INCLUDE_RTL_SDR=n" >> temp.config #RTL_SDR
-        echo "CONFIG_FIRMWARE_INCLUDE_MTR=y" >> temp.config #MTR
-        echo "CONFIG_FIRMWARE_INCLUDE_SRELAY=n" >> temp.config #SRELAY
-        echo "CONFIG_FIRMWARE_INCLUDE_FRPC=n" >> temp.config #FRPC
-        echo "CONFIG_FIRMWARE_INCLUDE_FRPS=n" >> temp.config #FRPS
-        echo "CONFIG_FIRMWARE_INCLUDE_TUNSAFE=n" >> temp.config #TUNSAFE
-        echo "CONFIG_FIRMWARE_INCLUDE_WIREGUARD=n" >> temp.config #WIREGUARD
+        echo "CONFIG_FIRMWARE_INCLUDE_UVC=n" >> configs/templates/$TNAME.config #UVC
+        echo "CONFIG_FIRMWARE_INCLUDE_AUDIO=n" >> configs/templates/$TNAME.config #AUDIO
+        echo "CONFIG_FIRMWARE_INCLUDE_MINIDLNA=n" >> configs/templates/$TNAME.config #MINIDLNA
+        echo "CONFIG_FIRMWARE_INCLUDE_TRANSMISSION=n" >> configs/templates/$TNAME.config #TRANSMISSION
+        echo "CONFIG_FIRMWARE_INCLUDE_TRANSMISSION_WEB_CONTROL=n" >> configs/templates/$TNAME.config #TRANSMISSION_WEB_CONTROL
+        echo "CONFIG_FIRMWARE_INCLUDE_ARIA=n" >> configs/templates/$TNAME.config #ARIA
+        echo "CONFIG_FIRMWARE_INCLUDE_ARIA_WEB_CONTROL=n" >> configs/templates/$TNAME.config #ARIA_WEB_CONTROL
+        echo "CONFIG_FIRMWARE_INCLUDE_NAPT66=n" >> configs/templates/$TNAME.config #NAPT66
+        echo "CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y" >> configs/templates/$TNAME.config #SHADOWSOCKS
+        echo "CONFIG_FIRMWARE_INCLUDE_SSSERVER=y" >> configs/templates/$TNAME.config #SSSERVER
+        echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_SERVER=n" >> configs/templates/$TNAME.config #SOFTETHERVPN_SERVER
+        echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT=n" >> configs/templates/$TNAME.config #SOFTETHERVPN_CLIENT
+        echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD=n" >> configs/templates/$TNAME.config #SOFTETHERVPN_CMD
+        echo "CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y" >> configs/templates/$TNAME.config #DNSFORWARDER
+        echo "CONFIG_FIRMWARE_INCLUDE_VLMCSD=y" >> configs/templates/$TNAME.config #VLMCSD
+        echo "CONFIG_FIRMWARE_INCLUDE_TTYD=y" >> configs/templates/$TNAME.config #TTYD
+        echo "CONFIG_FIRMWARE_INCLUDE_LRZSZ=y" >> configs/templates/$TNAME.config #LRZSZ
+        echo "CONFIG_FIRMWARE_INCLUDE_HTOP=y" >> configs/templates/$TNAME.config #HTOP
+        echo "CONFIG_FIRMWARE_INCLUDE_NANO=y" >> configs/templates/$TNAME.config #NANO
+        echo "CONFIG_FIRMWARE_INCLUDE_IPERF3=n" >> configs/templates/$TNAME.config #IPERF3
+        echo "CONFIG_FIRMWARE_INCLUDE_DUMP1090=n" >> configs/templates/$TNAME.config #DUMP1090
+        echo "CONFIG_FIRMWARE_INCLUDE_RTL_SDR=n" >> configs/templates/$TNAME.config #RTL_SDR
+        echo "CONFIG_FIRMWARE_INCLUDE_MTR=y" >> configs/templates/$TNAME.config #MTR
+        echo "CONFIG_FIRMWARE_INCLUDE_SRELAY=n" >> configs/templates/$TNAME.config #SRELAY
+        echo "CONFIG_FIRMWARE_INCLUDE_FRPC=n" >> configs/templates/$TNAME.config #FRPC
+        echo "CONFIG_FIRMWARE_INCLUDE_FRPS=n" >> configs/templates/$TNAME.config #FRPS
+        echo "CONFIG_FIRMWARE_INCLUDE_TUNSAFE=n" >> configs/templates/$TNAME.config #TUNSAFE
+        echo "CONFIG_FIRMWARE_INCLUDE_WIREGUARD=n" >> configs/templates/$TNAME.config #WIREGUARD
         #########################################################################################
         #自定义添加其它功能请参考源码configs/templates/目录下的config文件。按照上面的格式添加即可
         #格式如下：
-        #sed -i '/自定义项/d' temp.config
-        #echo "自定义项=y" >> temp.config
+        #sed -i '/自定义项/d' configs/templates/$TNAME.config
+        #echo "自定义项=y" >> configs/templates/$TNAME.config
         #########################################################################################
-        cp -f temp.config configs/templates/$TNAME.config
-        sudo ./clear_tree
-        sudo ./build_firmware_modify $TNAME
+        fakeroot ./build_firmware_modify $TNAME
         sudo mv -f configs/templates/$TNAME.config /opt/images/
         sudo mv -f images/*.trx /opt/images/
     - name : Upload packages
